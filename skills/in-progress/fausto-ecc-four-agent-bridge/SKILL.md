@@ -35,7 +35,7 @@ This is user-invoked only. Never execute Windows commands, change Cloudflare rou
 3. Check a private registry manifest version and pinned ECC source revision.
 4. Validate task envelope: request_id, exact target, capability allowlist, read_only=true, parameters and payload hash. Reject unknown fields.
 5. In staging use exactly three capabilities: health.read, contract.verify, ecc.skills.inspect, and permit these only on a test agent.
-6. Apply idempotent outbox writes with no overwrite for repeated requests. Treat a reused request_id with different content as a conflict.
+6. Validate the request before constructing any path, including the replay path. Reject links/reparse points at queue boundaries, duplicate JSON keys and oversized envelopes. Apply per-request exclusive locks and atomic no-overwrite publication. Preserve bytes and modification time for an identical replay; reject a reused request_id with different content. A stale lock is recovery-required, never success. Verify stored response metadata before accepting a replay.
 7. To invoke any production tool, require that tool's existing authentication and per-action approval. Never promote the staging allowlist into unrestricted execution.
 8. Verify a new output by reading back and checking source, status, expected contents, and provenance. Mark missing access BLOCKED.
 9. Compare memory usage at a consistent workload before and after any subsequent migration. Do not infer memory savings from moving text/configuration into Drive.
@@ -57,4 +57,8 @@ All tests live in a dedicated staging folder on a single authorized PC and a new
 
 ## Current status
 
-Stage 1 proof of concept: a standalone read-only worker runs on an authorized device and uses an inbox/outbox protocol; Drive is a private record store, not an autonomous transport. A cloud-coordinated production release remains pending.
+Stage 1 proof of concept remains isolated. The existing Suite now completes real read-only calls to both configured MCP destinations after the user renewed its Cloudflare Access session; inventories report 61 and 54 tools respectively. This does not establish autonomous exchange across all four agents.
+
+A separate worker revision fixes validation before path construction and no-overwrite publication. Eight regression tests pass locally and on the target Windows device, including eight concurrent worker processes, replay preservation, payload conflict, invalid paths, duplicate JSON keys, invalid stored responses and stale locks. The original worker and its hash-verified backup remain unchanged. The candidate and tests are retained in the private Drive registry, not promoted to production.
+
+Drive is a private record store, not autonomous transport. The coordinator's existing routing, additional authenticated adapters, restart persistence, full parity and controlled before/after performance still require verification. Keep this PR as a draft.
