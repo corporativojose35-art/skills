@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # FAUSTO ECC four-agent bridge
 
-Status: experimental skill, not installed or promoted. This is a specification and test harness, not a running cloud coordinator.
+Status: experimental specification in a draft PR. The separately authorized local Suite integration and common MCP entries have been installed and backend-tested; this repository is not a running cloud coordinator.
 
 ## Scope
 
@@ -72,3 +72,18 @@ The first promotion exposed a Windows/OneDrive read-only attribute on the workfl
 The corrected extension was promoted with a fresh backup. A final UTF-8 note-text correction was backed up and verified separately. The installed Suite completed a fresh nine-job four-MCP diagnostic cycle, verified the provisional memory note and returned the same result hash on a fresh-process replay with zero new calls. All 111 original catalog entries remain within the 116-entry catalog. Credentials, routes and existing agents were not replaced; no permanent schedule was enabled.
 
 Final response SHA-256: b6761cd1469c415dab13fd271fc76ee79616423c2d79bf1e0578f73c2d719919. Before/after resource samples were RAM86.8%/CPU11.0% and RAM88.8%/CPU14.9%, under uncontrolled workload; no resource savings are established. This draft still tracks the skill specification and source lock, not private deployed source or credentials. Full parity and reboot/session persistence remain unverified.
+
+
+## Common entry deployment — 2026-11-08
+
+The four backend MCP services expose `coordinar_tarea(request_id)` and `consultar_coordinacion(request_id)`. They delegate to the existing authenticated Suite workflow API. Remote entries use the existing local DEV relay; the PC entry uses the existing loopback Suite session. No new coordinating daemon, public route, bearer export or permanent schedule was introduced.
+
+The entry is bounded to the joint diagnostic and provisional memory record. Mentioning a plugin alone does not trigger execution. The assistant selects the tool when the user explicitly asks for that workflow; arbitrary task execution remains out of scope. A current client tool catalog is required.
+
+Backend inventories are 63 FAUSTO, 56 PC_PRIORITY, 5 Jaseris HTTP and 7 MEMORIA_IA tools. Every previous Suite catalog tool remains present; all 54 original PC tool definitions were compared exactly. Installed entry calls from all four backends shared one request ID, completed nine workflow calls, verified memory readback and deduplication, and returned identical results when replayed through every entry. Result SHA-256: c6383395e4998e54cd17b944c0b0cbc1629e4c6f14ab9ebdb0d2a4215f36ab9c.
+
+The test exposed an existing classifier bug: an approval phrase quoted inside historical memory data was treated as a current approval gate. The authorized correction examines direct tool messages while retaining explicit approval statuses, error states and plain-text notices. Eight targeted cases passed. The release manifest was updated with separate authorization after its integrity check correctly rejected the changed source hash.
+
+Exact backups exist for the connector files, classifier and release manifest. Three remote HTTP services were restarted; the existing Suite was restarted separately with authorization. Managed STDIO clients were not terminated. The current chat still advertises its previous tool catalog; refresh/reconnection and the remote managed STDIO chat session remain to be verified. Do not equate backend success with refreshed client availability.
+
+Remote CPU samples were 12% before and 9% after; free RAM was 2538156 and 2494072 KiB. These uncontrolled restart samples establish no resource savings. Full historical-tool execution parity, controlled PC resource comparison, reboot persistence and Cloudflare-session persistence remain unverified. Keep this PR as a draft; private source snapshots, backups and operational evidence stay outside the public repository.
